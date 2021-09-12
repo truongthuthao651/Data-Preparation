@@ -73,17 +73,38 @@ def check_kmeans(centers, new_centers):                                 # check
   
   
   
-def kmeans(centers, labels):
-  centers = Kmeans_init_centers(X, N)
-  labels = closest_points(X, centers)
-  while True:
-    if check_kmeans(centers, update_centers(X, labels, K)):
-      break
-    else:
-      centers = update_centers(X, labels, K)
-    plt.scatter(X[:, 0], X[:, 1])
-    plt.scatter(centroids[:, 0], centroids[:, 1], c='yellow', s=100)
-  return (centers, labels)
+def kmeans(X, N):
+    centers = kmeans_init_centers(X, N)
+    labels = []
+    run = True
+    while run:
+        labels = closest_points(X, centers)
+        new_centers = update_centers(X, labels, N)
+        if (centers == new_centers).all():
+            run == False
+        return (labels, new_centers)
+        
+        
+        
+def display_kmeans(X,labels,new_centers):
+    plt.scatter(X[:, 0], X[:, 1], c = labels)
+    plt.scatter(new_centers[:, 0], new_centers[:, 1], c='orange', s=100)
+    plt.show()
+    
+    
+    
+labels, new_centers = kmeans(X,2)
+display_kmeans(X,labels,new_centers)
+
+
+
+labels, new_centers = kmeans(X,3)
+display_kmeans(X,labels,new_centers)
+
+
+
+labels, new_centers = kmeans(X,6)
+display_kmeans(X,labels,new_centers)
   
   
   
