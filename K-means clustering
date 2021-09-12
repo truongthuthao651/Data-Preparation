@@ -38,10 +38,57 @@ kmeans_display(X, original_label)
 
 
 
-def kmeans_init_centers(X, K):
-  return X[np.random.choice(X.shape[0], K, replace = False)]        # chọn random K centroids
+X = np.vstack([X0, X1, X2])
+X
 
-def kmeans_assign_labels(X, centers):
-  D = cdist(X, centers)                                             # k/c data ts centers
+
+
+plt.plot(X[:, 0], X[:, 1], 'bo', markersize=5)
+
+
+
+def Kmeans_init_centers(X, N):      
+  return X[np.random.choice(X.shape[0], N, replace=False)]             # random centroids
+  
+  
+  
+def closest_points(X, centers):
+ distance = cdist(X, centers)                                          # k/c data ts center
+ return np.argmin(distance, axis = 1)                                  # return closest points
+ 
+ 
+ 
+def update_centers(X, labels, K):
+ centers = np.zeros((K, X.shape[1]))                                   # update nem_centers
+ for k in range(N):
+   new_centers = X[labels == k, :]
+   centers[k, :] = np.mean(new_centers, axis = 0)
+   return centers
+
+
+
+def check_kmeans(centers, new_centers):                                 # check 
+  if np.array_equal(centers, new_centers, equal_nan = False):
+    return True
+  
+  
+  
+def kmeans(centers, labels):
+  centers = Kmeans_init_centers(X, N)
+  labels = closest_points(X, centers)
+  while True:
+    if check_kmeans(centers, update_centers(X, labels, K)):
+      break
+    else:
+      centers = update_centers(X, labels, K)
+    plt.scatter(X[:, 0], X[:, 1])
+    plt.scatter(centroids[:, 0], centroids[:, 1], c='yellow', s=100)
+  return (centers, labels)
+  
+  
+  
+  
+
+
 
 
